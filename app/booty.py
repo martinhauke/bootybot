@@ -19,6 +19,7 @@ async def on_ready():
 @bootybot.command()
 async def hello(*args):
     """Replies with 'Hello, World!'."""
+    print(args)
     await bootybot.say("Hello, World!")
 
 

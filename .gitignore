@@ -1,0 +1,2 @@
+# protect our secrets
+app/secrets.py

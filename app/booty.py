@@ -1,14 +1,15 @@
 # This is bootybot
 import discord
 import asyncio
-from discord.ext.commands import Bot
-from password import TOKEN
+from discord.ext import commands
+from secrets import TOKEN
 
-bootybot = Bot(command_prefix="!")
+bootybot = commands.Bot(command_prefix="!")
+print(TOKEN)
 
 
 @bootybot.event
-async def on_read():
+async def on_ready():
     print("Client logged in")
 
 

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/soxrepo/bootybot.svg?branch=master)](https://travis-ci.org/soxrepo/bootybot)
+
 # bootybot
 A small and simple Discord bot written in Python
 

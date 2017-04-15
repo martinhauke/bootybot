@@ -2,12 +2,12 @@
 # unit tests without really complicated setups
 
 
-def hello(*args):
+def hello(args=None):
     """Prints 'Hello, World!'"""
     return "Hello, World!"
 
 
-def echo(*msg):
+def echo(msg):
     """Returns the Input"""
     return msg
 

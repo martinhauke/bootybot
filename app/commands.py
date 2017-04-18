@@ -1,5 +1,6 @@
 # Functionality of commands will be implemented here so we are able to write
 # unit tests without really complicated setups
+from models import session
 
 
 def hello(args=None):
@@ -34,3 +35,14 @@ def list(*args):
 def ping():
     """Returns 'pong!'"""
     return "pong!"
+
+
+def meetup(args_str):
+    """Creates an event for people to sign up to.
+
+    At least that is the plan."""
+    print(args_str)
+    # Get the arguments
+
+    # Write to database
+    return 'Not yet implemented'

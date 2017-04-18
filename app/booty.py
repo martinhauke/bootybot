@@ -44,4 +44,11 @@ async def ping():
     await bootybot.say(ec.ping())
 
 
+@bootybot.command()
+async def meetup(*, args: str):
+    """Creates an event for others to sign up to"""
+
+    await bootybot.say(ec.meetup(args))
+
+
 bootybot.run(TOKEN)

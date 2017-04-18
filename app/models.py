@@ -3,6 +3,13 @@ from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, func
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
+# Set stuff up
+from sqlalchemy import create_engine
+from sqlalchemy.orm.session import sessionmaker
+
+engine = create_engine('sqlite:///dev_db.sqlite')
+session = sessionmaker()
+session.configure(bind=engine)
 Base = declarative_base()
 
 
@@ -26,10 +33,5 @@ class MeetupUser(Base):
                         uselist=True,
                         cascade='delete,all'))
 
-from sqlalchemy import create_engine
-engine = create_engine('sqlite:///meetup_test.sqlite')
-
-from sqlalchemy.orm import sessionmaker
-session = sessionmaker()
 session.configure(bind=engine)
 Base.metadata.create_all(engine)

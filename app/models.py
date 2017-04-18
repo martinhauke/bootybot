@@ -8,8 +8,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker
 
 engine = create_engine('sqlite:///dev_db.sqlite')
-session = sessionmaker()
-session.configure(bind=engine)
+Session = sessionmaker()
+Session.configure(bind=engine)
+session = Session()
 Base = declarative_base()
 
 
@@ -33,5 +34,4 @@ class MeetupUser(Base):
                         uselist=True,
                         cascade='delete,all'))
 
-session.configure(bind=engine)
 Base.metadata.create_all(engine)

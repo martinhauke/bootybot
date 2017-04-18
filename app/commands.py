@@ -1,6 +1,7 @@
 # Functionality of commands will be implemented here so we are able to write
 # unit tests without really complicated setups
-from models import session
+from models import session, MeetupEvent
+from datetime import datetime
 
 
 def hello(args=None):
@@ -41,8 +42,19 @@ def meetup(args_str):
     """Creates an event for people to sign up to.
 
     At least that is the plan."""
-    print(args_str)
-    # Get the arguments
+    date, event_descr = args_str.split(";")
 
-    # Write to database
-    return 'Not yet implemented'
+    event_date = datetime.strptime(date, "%d.%m.%Y %H:%M")
+    m_event = MeetupEvent(date=event_date, description=event_descr)
+    session.add(m_event)
+    session.commit()
+
+    retstring = "**Event created:**" + "\n"
+    retstring += "Date: " + m_event.date.strftime("%d.%m.%Y") + "\n"
+    retstring += "Time: " + m_event.date.strftime("%H:%M") + "\n"
+    retstring += "Description: " + m_event.description + "\n"
+    retstring += "--------------" + "\n"
+    retstring += "You can sign up for this event by typing '!signup "
+    retstring += str(m_event.id) + "'."
+
+    return retstring

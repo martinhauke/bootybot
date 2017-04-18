@@ -1,6 +1,6 @@
 # Functionality of commands will be implemented here so we are able to write
 # unit tests without really complicated setups
-from app.models import session, MeetupEvent
+from app.models import session, MeetupEvent, MeetupUser
 from datetime import datetime
 
 
@@ -59,5 +59,41 @@ def meetup(ctx, args_str):
     retstring += "--------------" + "\n"
     retstring += "You can sign up for this event by typing '!signup "
     retstring += str(m_event.id) + "'."
+
+    return retstring
+
+
+def signup(ctx, args_str):
+    """Sign up for an event."""
+
+    user = ctx.message.author
+    args = args_str.split(";")
+    print(args)
+    eid = args[0]
+    if (len(args) == 2):
+        print("2")
+        m_status = args[1]
+    else:
+        m_status = 1
+
+    db_user = session.query(MeetupUser).filter_by(userid=user.id,
+                                                  event_id=eid).first()
+    if db_user:
+        print("if:" + str(db_user.id))
+        m_user = db_user
+        m_user.status = m_status
+    else:
+        m_user = MeetupUser(userid=user.id,
+                            event_id=eid,
+                            status=m_status)
+
+    m_event = session.query(MeetupEvent).filter_by(id=eid).first()
+
+    session.add(m_user)
+    session.commit()
+
+    retstring = "<@" + user.id + "> signed up for event ["
+    retstring += str(m_event.id) + "]: \n"
+    retstring += "Status: " + str(m_user.status)
 
     return retstring

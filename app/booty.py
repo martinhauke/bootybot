@@ -51,4 +51,11 @@ async def meetup(ctx, *, args: str):
     await bootybot.say(ec.meetup(ctx, args))
 
 
+@bootybot.command(pass_context=True)
+async def signup(ctx, *, args: str):
+    """Sign up for an event"""
+
+    await bootybot.say(ec.signup(ctx, args))
+
+
 bootybot.run(TOKEN)

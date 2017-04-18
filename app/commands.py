@@ -1,6 +1,6 @@
 # Functionality of commands will be implemented here so we are able to write
 # unit tests without really complicated setups
-from models import session, MeetupEvent
+from app.models import session, MeetupEvent
 from datetime import datetime
 
 

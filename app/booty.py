@@ -1,9 +1,9 @@
 # This is bootybot
 import discord
 import asyncio
-import commands as ec
+import app.commands as ec
 from discord.ext import commands
-from secrets import TOKEN
+from app.secrets import TOKEN
 
 bootybot = commands.Bot(command_prefix="!")
 

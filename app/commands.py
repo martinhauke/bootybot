@@ -38,18 +38,21 @@ def ping():
     return "pong!"
 
 
-def meetup(args_str):
+def meetup(ctx, args_str):
     """Creates an event for people to sign up to.
 
     At least that is the plan."""
+    user = ctx.message.author
     date, event_descr = args_str.split(";")
 
     event_date = datetime.strptime(date, "%d.%m.%Y %H:%M")
-    m_event = MeetupEvent(date=event_date, description=event_descr)
+    m_event = MeetupEvent(date=event_date,
+                          description=event_descr,
+                          created_by=str(user.id))
     session.add(m_event)
     session.commit()
 
-    retstring = "**Event created:**" + "\n"
+    retstring = "**<@" + user.id + "> created an Event:**" + "\n"
     retstring += "Date: " + m_event.date.strftime("%d.%m.%Y") + "\n"
     retstring += "Time: " + m_event.date.strftime("%H:%M") + "\n"
     retstring += "Description: " + m_event.description + "\n"

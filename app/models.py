@@ -18,6 +18,7 @@ class MeetupEvent(Base):
     __tablename__ = 'meetup_event'
     id = Column(Integer, primary_key=True)
     created_on = Column(DateTime, default=func.now())
+    created_by = Column(String)
     date = Column(DateTime)  # TODO: add constraint - must be future
     description = Column(String)
 

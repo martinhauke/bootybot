@@ -7,4 +7,5 @@ multidict==2.1.4
 packaging==16.8
 pyparsing==2.2.0
 six==1.10.0
+SQLAlchemy==1.1.9
 websockets==3.3

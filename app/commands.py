@@ -88,6 +88,8 @@ def signup(ctx, args_str):
                             status=m_status)
 
     m_event = session.query(MeetupEvent).filter_by(id=eid).first()
+    if not m_event:
+        return "No event found with ID " + eid
 
     session.add(m_user)
     session.commit()

@@ -48,11 +48,15 @@ def meetup(ctx, args_str):
         print("empty string")
         return show_meetups()
 
+    args_str = args_str.replace("; ", ";")
+    print("check:" + args_str)
+
     user = ctx.message.author
-    date, event_descr = args_str.split(DELIMITER)
+    date, title, event_descr = args_str.split(DELIMITER)
 
     event_date = datetime.strptime(date, "%d.%m.%Y %H:%M")
     m_event = MeetupEvent(date=event_date,
+                          title=title,
                           description=event_descr,
                           created_by=str(user.id))
     session.add(m_event)
@@ -61,10 +65,11 @@ def meetup(ctx, args_str):
     retstring = "**<@" + user.id + "> created an Event:**" + "\n"
     retstring += "Date: " + m_event.date.strftime("%d.%m.%Y") + "\n"
     retstring += "Time: " + m_event.date.strftime("%H:%M") + "\n"
+    retstring += "Title: **" + m_event.title + "**\n"
     retstring += "Description: " + m_event.description + "\n"
     retstring += "--------------" + "\n"
-    retstring += "You can sign up for this event by typing '!signup "
-    retstring += str(m_event.id) + "'."
+    retstring += "You can sign up for this event by typing *'!signup "
+    retstring += str(m_event.id) + "'*."
 
     return retstring
 
@@ -114,7 +119,8 @@ def show_meetups():
 
     retstring = "Upcoming events: \n"
     for event in db_eventlist:
-        retstring += "[" + str(event.id) + "] " + str(event.date) + ": \n"
+        retstring += "[" + str(event.id) + "] **" + event.title
+        retstring += "** [" + str(event.date) + "]: \n"
         retstring += event.description + "\n"
 
     return retstring

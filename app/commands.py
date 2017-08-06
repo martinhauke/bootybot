@@ -2,6 +2,7 @@
 # unit tests without really complicated setups
 from app.models import session, MeetupEvent, MeetupUser
 from datetime import datetime
+from app.settings import DELIMITER
 
 
 def hello(args=None):
@@ -42,8 +43,13 @@ def meetup(ctx, args_str):
     """Creates an event for people to sign up to.
 
     At least that is the plan."""
+    print("Bla!" + args_str)
+    if not args_str:
+        print("empty string")
+        return show_meetups()
+
     user = ctx.message.author
-    date, event_descr = args_str.split(";")
+    date, event_descr = args_str.split(DELIMITER)
 
     event_date = datetime.strptime(date, "%d.%m.%Y %H:%M")
     m_event = MeetupEvent(date=event_date,
@@ -67,7 +73,7 @@ def signup(ctx, args_str):
     """Sign up for an event."""
 
     user = ctx.message.author
-    args = args_str.split(";")
+    args = args_str.split(DELIMITER)
     print(args)
     eid = args[0]
     if (len(args) == 2):
@@ -97,5 +103,18 @@ def signup(ctx, args_str):
     retstring = "<@" + user.id + "> signed up for event ["
     retstring += str(m_event.id) + "]: \n"
     retstring += "Status: " + str(m_user.status)
+
+    return retstring
+
+
+def show_meetups():
+    """Show all upcoming events"""
+
+    db_eventlist = session.query(MeetupEvent)
+
+    retstring = "Upcoming events: \n"
+    for event in db_eventlist:
+        retstring += "[" + str(event.id) + "] " + str(event.date) + ": \n"
+        retstring += event.description + "\n"
 
     return retstring

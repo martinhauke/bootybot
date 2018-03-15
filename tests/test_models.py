@@ -22,7 +22,7 @@ class TestModels(unittest.TestCase):
 
     def test_insert_meetup_event(self):
         self.session.add(MeetupEvent(
-            date=datetime.strptime('12.05.2017 18:00', '%d.%m.%Y %H:%M'),
+            date=datetime.datetime.now() + datetime.timedelta(days=1),
             description="This is a Description.",
             created_by="101962887211261952"))
         self.session.commit()

@@ -2,6 +2,9 @@
 app/secrets.py
 secretnotes
 
+# Databases and Dev environment files
+dev_db.sqlite
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

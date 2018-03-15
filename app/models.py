@@ -2,6 +2,8 @@
 from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, func
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import CheckConstraint
+
 
 # Set stuff up
 from sqlalchemy import create_engine
@@ -19,7 +21,9 @@ class MeetupEvent(Base):
     id = Column(Integer, primary_key=True)
     created_on = Column(DateTime, default=func.now())
     created_by = Column(String)
-    date = Column(DateTime)  # TODO: add constraint - must be future
+    date = Column(DateTime, CheckConstraint("date > date()",  # date() is sqlite specific
+                                            name="checkDateIsFuture"))
+    title = Column(String)
     description = Column(String)
 
 

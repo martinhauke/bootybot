@@ -1,7 +1,7 @@
 # Testing models.py; This is not really doing anything yet.
 # I need to learn more about testing before doing anything clever here.
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.models import Base, MeetupEvent, MeetupUser
@@ -22,7 +22,7 @@ class TestModels(unittest.TestCase):
 
     def test_insert_meetup_event(self):
         self.session.add(MeetupEvent(
-            date=datetime.datetime.now() + datetime.timedelta(days=1),
+            date=datetime.now() + timedelta(days=1),
             description="This is a Description.",
             created_by="101962887211261952"))
         self.session.commit()

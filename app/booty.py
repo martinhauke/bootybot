@@ -39,7 +39,7 @@ async def echo(*, message: str):
 @bootybot.command()
 async def ping():
     """Returns 'pong!'
- 
+
     Can be used to check the connection."""
     await bootybot.say(ec.ping())
 

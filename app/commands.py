@@ -2,6 +2,7 @@
 # unit tests without really complicated setups
 from app.models import session, MeetupEvent, MeetupUser
 from datetime import datetime
+from app.settings import DELIMITER
 
 
 def hello(args=None):
@@ -42,11 +43,20 @@ def meetup(ctx, args_str):
     """Creates an event for people to sign up to.
 
     At least that is the plan."""
+    print("Bla!" + args_str)
+    if not args_str:
+        print("empty string")
+        return show_meetups()
+
+    args_str = args_str.replace("; ", ";")
+    print("check:" + args_str)
+
     user = ctx.message.author
-    date, event_descr = args_str.split(";")
+    date, title, event_descr = args_str.split(DELIMITER)
 
     event_date = datetime.strptime(date, "%d.%m.%Y %H:%M")
     m_event = MeetupEvent(date=event_date,
+                          title=title,
                           description=event_descr,
                           created_by=str(user.id))
     session.add(m_event)
@@ -55,10 +65,11 @@ def meetup(ctx, args_str):
     retstring = "**<@" + user.id + "> created an Event:**" + "\n"
     retstring += "Date: " + m_event.date.strftime("%d.%m.%Y") + "\n"
     retstring += "Time: " + m_event.date.strftime("%H:%M") + "\n"
+    retstring += "Title: **" + m_event.title + "**\n"
     retstring += "Description: " + m_event.description + "\n"
     retstring += "--------------" + "\n"
-    retstring += "You can sign up for this event by typing '!signup "
-    retstring += str(m_event.id) + "'."
+    retstring += "You can sign up for this event by typing *'!signup "
+    retstring += str(m_event.id) + "'*."
 
     return retstring
 
@@ -67,7 +78,7 @@ def signup(ctx, args_str):
     """Sign up for an event."""
 
     user = ctx.message.author
-    args = args_str.split(";")
+    args = args_str.split(DELIMITER)
     print(args)
     eid = args[0]
     if (len(args) == 2):
@@ -97,5 +108,19 @@ def signup(ctx, args_str):
     retstring = "<@" + user.id + "> signed up for event ["
     retstring += str(m_event.id) + "]: \n"
     retstring += "Status: " + str(m_user.status)
+
+    return retstring
+
+
+def show_meetups():
+    """Show all upcoming events"""
+
+    db_eventlist = session.query(MeetupEvent)
+
+    retstring = "Upcoming events: \n"
+    for event in db_eventlist:
+        retstring += "[" + str(event.id) + "] **" + event.title
+        retstring += "** [" + str(event.date) + "]: \n"
+        retstring += event.description + "\n"
 
     return retstring

@@ -32,7 +32,7 @@ class MeetupUser(Base):
     id = Column(Integer, primary_key=True)
     userid = Column(String)
     event_id = Column(Integer, ForeignKey('meetup_event.id'))
-    status = Column(Integer)  # TODO: add contraints? [1,3]
+    status = Column(Integer)  # TODO: add constraints? [1,3]
 
     meetup_event = relationship(
         MeetupEvent,
